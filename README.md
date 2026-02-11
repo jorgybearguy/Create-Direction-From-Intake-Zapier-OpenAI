@@ -7,7 +7,12 @@ Booking → Intake → AI service brief automation (Zapier + OpenAI) with T-60 d
 When a client books, they receive an intake form, pre-filled with their (hidden) booking info. On submission, an LLM compiles a clean, custom-tailored brief that’s delivered to the service provider **~1 hour before the session** (or immediately if the intake arrives late). There’s a failure path that alerts admin, sends the service provider the raw intake as a fallback, and logs to a dead-letter sheet.
 
 **Demo (90s Loom):** [LOOM_LINK]  
-**Strict prompt template:** (prompt/system_prompt.template.txt) 
+**Strict prompt template:** (prompt/system_prompt.template.txt)
+[System prompt (template)](prompt/system_prompt.template.txt)
+[System prompt (filled sample)](prompt/system_prompt.sample_filled.txt)
+[Stage 1 screenshot](exports/stage1.png)
+[Stage 2 screenshot](exports/stage2.png)
+[Actor brief (sample output)](samples/openAI_output.sample.txt)
 
 ---
 
