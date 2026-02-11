@@ -4,7 +4,7 @@ Booking → Intake → AI service brief automation (Zapier + OpenAI) with T-60 d
 # Mock-Interview Direction Generator (Zapier + OpenAI)
 
 **TL;DR**  
-When a client books, they receive an intake form, pre-filled with their (hidden) booking info. On submission, an LLM compiles a clean, custom-tailored brief that’s delivered to the service provider **~1 hour before the session** (or immediately if the intake arrives late). There’s a failure path that alerts admin, sends the service provider the raw intake as a fallback, and logs to a dead-letter sheet.
+When a client books, they receive a pre-filled intake form (hidden fields carry booking metadata). On submission, an LLM compiles a clean, custom-tailored brief that’s delivered to the service provider **~1 hour before the session** (or immediately if the intake arrives late). There’s a failure path that alerts admin, sends the service provider the raw intake as a fallback, and logs to a dead-letter sheet.
 
 **Demo (90s Loom):** [LOOM_LINK]  
 
