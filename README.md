@@ -8,16 +8,16 @@ When a client books, they receive an intake form, pre-filled with their (hidden)
 
 **Demo (90s Loom):** [LOOM_LINK]  
 
-[System prompt (template)](prompt/system_prompt.template.txt)
+## Prompt & Samples
 
+[System prompt (template)](prompt/system_prompt.template.txt)
 [System prompt (filled sample)](prompt/system_prompt.sample_filled.txt)
+[Service brief (sample AI output)](samples/openAI_output.sample.txt)
+
+## Screenshots
 
 [Stage 1 screenshot](exports/stage1.png)
-
 [Stage 2 screenshot](exports/stage2.png)
-
-[Actor brief (sample output)](samples/openAI_output.sample.txt)
-
 ---
 
 ## Problem
@@ -35,25 +35,5 @@ Trigger on intake submission (Google Sheets). Generate the actor brief (OpenAI),
 
 ## Flow diagram
 
-```mermaid
-flowchart TD
-  subgraph Stage_1["Stage 1 – Intake Request"]
-    A[SimplyBook: New Booking] --> B{Service name contains "Interview"?}
-    B -- No --> X[Stop]
-    B -- Yes --> C[Email client pre-filled intake link]
-  end
-
-  subgraph Stage_2["Stage 2 – Direction & Delivery"]
-    D[Google Sheets: Intake submitted (new row)] --> E[OpenAI: Generate actor direction]
-    E --> F{AI output exists?}
-    F -- Yes --> G[Write direction to sheet]
-    G --> H[Compute session time minus 60m]
-    H --> I{More than 60m left?}
-    I -- No (within 60m) --> J[Send now to actor]
-    I -- Yes (>60m) --> K[Delay until T-60m] --> L[Send to actor]
-
-    F -- No (empty/failed) --> M[Email admin: generation failed]
-    M --> N[Email actor: raw intake fallback]
-    N --> O[Append to Dead_Letter sheet]
-  end
+![Flow diagram](readme_assets/flow.png)
 
