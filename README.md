@@ -8,16 +8,17 @@ When a client books, they receive an intake form, pre-filled with their (hidden)
 
 **Demo (90s Loom):** [LOOM_LINK]  
 
-## Prompt & Samples
+**Prompt & Samples**
 
 [System prompt (template)](prompt/system_prompt.template.txt)
 [System prompt (filled sample)](prompt/system_prompt.sample_filled.txt)
 [Service brief (sample AI output)](samples/openAI_output.sample.txt)
 
-## Screenshots
+**Screenshots**
 
 [Stage 1 screenshot](exports/stage1.png)
 [Stage 2 screenshot](exports/stage2.png)
+
 ---
 
 ## Problem
