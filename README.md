@@ -4,6 +4,8 @@ Booking → Intake → AI service brief automation (Zapier + OpenAI) with T-60 d
 # Mock-Interview Direction Generator (Zapier + OpenAI)
 
 **TL;DR**  
+This automation provides the service provider (mock interviewer) with instructions on how to conduct the service (a mock interview), based on the clients needs. 
+
 When a client books, they receive a pre-filled intake form (hidden fields carry booking metadata). On submission, an LLM compiles a clean, custom-tailored brief that’s delivered to the service provider **~1 hour before the session** (or immediately if the intake arrives late). There’s a failure path that alerts admin, sends the service provider the raw intake as a fallback, and logs to a dead-letter sheet.
 
 ## Reference Files
@@ -47,14 +49,15 @@ Trigger on intake submission (Google Sheets). Generate the actor brief (OpenAI),
 * Automation: Zapier (Filter, Paths, Formatter, Delay, Email)
 * Data / triggers: SimplyBook → Google Sheets
 * AI: OpenAI (chat completions, system prompt enforces mappings/format)
-* Notifications: Email (actor/admin). Slack is trivial to add later.
+* Notifications: Email (actor/admin). 
 
 ## Prompt (system)
 
 The OpenAI step uses a strict, sectioned system prompt that enforces:
 * Seven output blocks (Session/Coaching, Interviewer Direction, Company/Role, Resume, Sliders + Actions, 20-question set, Notes)
-* Canonical labels, spacing rules, slider math (0–100 → 1–5), and validations (e.g., include “Ask for measurable results 5×+” when metrics==Practice!)
+* Canonical labels, spacing rules, slider math (0–100 → 1–5), and validations (e.g., include “Interrupt 5×+” when metrics==Practice; client specified they want to practice being interrupted in intake)
 * Guardrails for missing inputs and off-limits topics
+
 See the full text: [System prompt (template with placeholder variables)](prompt/system_prompt.template.txt)
 [System prompt (filled sample)](prompt/system_prompt.sample_filled.txt)
 
@@ -74,6 +77,8 @@ From intake (Stage 2): goals, session_format, coaching_opt_in, five sliders (0�
 * Sheet updates storing the brief on the intake row
 * Dead-letter row on failure (timestamp, booking_code, error, notes)
 
+[Service brief (sample AI output)](samples/openAI_output.sample.txt)
+
 ---
 
 ## Reliability, security & ops
@@ -85,8 +90,7 @@ From intake (Stage 2): goals, session_format, coaching_opt_in, five sliders (0�
    * Email actor the raw intake as a fallback so the session isn’t blocked
    * Append a row to Dead_Letter
 * Logging. Intake sheet stores the generated brief; Dead_Letter captures failures.
-* Catalog. Tracked in Automation_Catalog (name, owner, docs, Loom, related Zaps, last review).
-* Deliverability (demo note). Email by Zapier is used for this demo; production will switch to a domain-authenticated sender (GSuite/Outlook or SMTP/SendGrid with DKIM/SPF).
+* Deliverability (demo note). Email by Zapier is used for this demo; production will switch to a domain-authenticated sender to avoid delivery to SPAM folders (GSuite/Outlook or SMTP/SendGrid with DKIM/SPF).
 * Privacy (planned). Prefilled intake URLs will be tokenized so PII isn’t exposed in query params.
 * Idempotency (planned). Gate by booking_code (sheet flag or Storage by Zapier) to skip duplicate sends.
 
@@ -94,10 +98,10 @@ From intake (Stage 2): goals, session_format, coaching_opt_in, five sliders (0�
 
 ## Result (representative run)
 
-* Client books → instantly receives intake link; completes it.
-* Stage 2 generates a structured brief and stores it on the row.
+* Client books → instantly receives intake link; completes it in their own time.
+* Stage 2 generates a structured brief and stores it in the google sheets row.
 * If > 60 minutes to start, email is scheduled for T-60m; otherwise it sends immediately.
-* A forced failure shows admin notified, actor received raw intake, and a Dead_Letter entry was created.
+* A forced failure results in: admin being notified, actor receiving the raw intake, and a Dead_Letter entry  being created.
 
 ---
 
@@ -106,7 +110,6 @@ From intake (Stage 2): goals, session_format, coaching_opt_in, five sliders (0�
 * Swap sender to domain-authenticated email; add Slack alerts on failure.
 * Tokenize intake URLs; add a short-lived one-time code.
 * Add a tiny JSON “sidecar” to validate sliders/actions before send.
-* Port to n8n/Make with environment secrets and retry/backoff policies.
 * Track metrics: on-time delivery %, error rate < 1%, hours saved/session.
 
 ---
