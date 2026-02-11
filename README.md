@@ -10,7 +10,7 @@ When a client books, they receive a pre-filled intake form (hidden fields carry 
 
 ## Reference Files
 
-**Demo (90s Loom):** (https://www.loom.com/share/0c481ce4503143c2bb39f7766ea8330a)  
+**Demo (2min Loom):** (https://www.loom.com/share/0c481ce4503143c2bb39f7766ea8330a)  
 
 **Prompt & Samples**
 
