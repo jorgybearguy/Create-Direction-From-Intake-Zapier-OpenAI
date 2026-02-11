@@ -40,7 +40,11 @@ Trigger on intake submission (Google Sheets). Generate the actor brief (OpenAI),
 
 ## Flow diagram
 
+<details>
+  <summary>View full-size flow diagram</summary>
+
 ![Flow diagram](readme_assets/flow.png)
+</details>
 
 ---
 
